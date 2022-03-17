@@ -9,7 +9,7 @@ import joblib
 
 data = pd.read_csv('car.data')
 
-print(data)
+
 
 le = preprocessing.LabelEncoder()
 
@@ -26,7 +26,7 @@ predict = "class"
 X = list(zip(buying,maint,door,persons,lug_boot,safety))
 Y = list(cls)
 
-TARGET_ACCURACY = 98.8
+TARGET_ACCURACY = 98.7
 acc = 0
 
 while acc < TARGET_ACCURACY/100:
@@ -42,3 +42,17 @@ while acc < TARGET_ACCURACY/100:
 
 joblib.dump(model,"model.joblib")
 print("Model saved at an accuracy of ",round(acc* 100) ,"%")
+
+predicted = model.predict(Xtest)
+names = ["unacc","acc","good","vgood"]
+
+buyingnames = ["vhigh", "high", "med", "low"]
+maintnames = ["vhigh", "high", "med", "low"]
+doorsnames = ["2","3","4","5 or more"]
+personsnames = ["2","4","more"]
+lug_bootnames = ["small","med","big"]
+safetynames = ["low","med","high"]
+
+for i in range(len(predicted)):
+    array = np.array([  buyingnames[Xtest[i][0]] ,  maintnames[Xtest[i][1]]  ,  doorsnames[Xtest[i][2]] ,  personsnames[Xtest[i][3]]  ,  lug_bootnames[Xtest[i][4]]  ,   safetynames[Xtest[i][5]]   ])
+    print("Predicted: ",names[predicted[i]]," Data: ",array , " Actual: ",names[Ytest[i]] )
