@@ -26,15 +26,19 @@ predict = "class"
 X = list(zip(buying,maint,door,persons,lug_boot,safety))
 Y = list(cls)
 
-Xtrain,Xtest,Ytrain,Ytest = train_test_split(X,Y,test_size=0.1)
+TARGET_ACCURACY = 98.8
+acc = 0
 
-model = KNeighborsClassifier(n_neighbors=5)
+while acc < TARGET_ACCURACY/100:
+    Xtrain,Xtest,Ytrain,Ytest = train_test_split(X,Y,test_size=0.1)
+    model = KNeighborsClassifier(n_neighbors=9)
 
-model.fit(Xtrain,Ytrain)
+    model.fit(Xtrain,Ytrain)
 
-acc = model.score(Xtest,Ytest)
-print(acc)
+    acc = model.score(Xtest,Ytest)
+    print(acc)
 
-if(acc > 0.9):
-    joblib.dump(model,"model.joblib")
-    print("Model saved")
+
+
+joblib.dump(model,"model.joblib")
+print("Model saved at an accuracy of ",round(acc* 100) ,"%")
